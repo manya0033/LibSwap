@@ -15,6 +15,14 @@ app.get('/', (req, res) => {
     res.send('LibSwap server is running');
 });
 
+// Student identity endpoint required for the individual Docker HD submission
+app.get('/api/student', (req, res) => {
+    res.json({
+        name: 'MANYA MAHAJAN',
+        studentId: '223222623'
+    });
+});
+
 // Authentication routes from the shared project
 app.use('/api/auth', authRoutes);
 
