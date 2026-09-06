@@ -11,8 +11,21 @@ const sortSelect = document.getElementById('sortSelect');
 // Stores the books returned by the backend
 let currentBooks = [];
 
+// Enables or disables the catalogue controls while data is loading
+const setLoadingState = (isLoading) => {
+    searchButton.disabled = isLoading;
+    searchInput.disabled = isLoading;
+    genreFilter.disabled = isLoading;
+    availabilityFilter.disabled = isLoading;
+    sortSelect.disabled = isLoading;
+
+    searchButton.textContent = isLoading ? 'Searching...' : 'Search';
+};
+
 // Adds the available genres to the genre dropdown
 const updateGenreOptions = (books) => {
+    const selectedGenre = genreFilter.value;
+
     const genres = [
         ...new Set(
             books
@@ -29,6 +42,11 @@ const updateGenreOptions = (books) => {
         option.textContent = genre;
         genreFilter.appendChild(option);
     });
+
+    // Keep the selected genre if it still exists in the new results
+    if (genres.includes(selectedGenre)) {
+        genreFilter.value = selectedGenre;
+    }
 };
 
 // Shows the books on the page
@@ -119,6 +137,8 @@ const loadBooks = async (searchTerm = '') => {
         // Clear old book results before showing new ones
         bookList.innerHTML = '';
 
+        setLoadingState(true);
+
         // Build the API URL
         let url = '/api/books';
 
@@ -132,11 +152,16 @@ const loadBooks = async (searchTerm = '') => {
 
         // If the server gives an error, stop here
         if (!response.ok) {
-            throw new Error('Unable to load books');
+            throw new Error(`Server returned status ${response.status}`);
         }
 
         // Convert the response into JavaScript data
         const books = await response.json();
+
+        // Make sure the API returned a list of books
+        if (!Array.isArray(books)) {
+            throw new Error('Invalid book data received from server');
+        }
 
         currentBooks = books;
 
@@ -147,9 +172,17 @@ const loadBooks = async (searchTerm = '') => {
         applyFiltersAndSorting();
 
     } catch (error) {
+        // Remove old data so failed requests do not leave stale results
+        currentBooks = [];
+        bookList.innerHTML = '';
+
         // Show a simple error message if something goes wrong
         message.textContent = 'Unable to load books. Please try again.';
         console.error(error);
+
+    } finally {
+        // Re-enable the controls after the request finishes
+        setLoadingState(false);
     }
 };
 
