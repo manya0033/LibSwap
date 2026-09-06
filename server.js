@@ -18,10 +18,10 @@ app.get('/', (req, res) => {
     res.send('LibSwap server is running');
 });
 
-// Authentication routes
+// Authentication routes from the shared project
 app.use('/api/auth', authRoutes);
 
-// Catalogue routes
+// Catalogue routes for US02
 app.use('/api/books', bookRoutes);
 
 mongoose.connect(process.env.MONGODB_URI)
