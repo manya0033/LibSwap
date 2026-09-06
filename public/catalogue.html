@@ -37,6 +37,40 @@
                     Search
                 </button>
             </div>
+
+            <!-- Catalogue filters and sorting -->
+            <div class="filter-section">
+
+                <div class="filter-control">
+                    <label for="genreFilter">Genre</label>
+
+                    <select id="genreFilter">
+                        <option value="">All genres</option>
+                    </select>
+                </div>
+
+                <div class="filter-control">
+                    <label for="availabilityFilter">Availability</label>
+
+                    <select id="availabilityFilter">
+                        <option value="">All books</option>
+                        <option value="available">Available</option>
+                        <option value="unavailable">Unavailable</option>
+                    </select>
+                </div>
+
+                <div class="filter-control">
+                    <label for="sortSelect">Sort by</label>
+
+                    <select id="sortSelect">
+                        <option value="">Default</option>
+                        <option value="title-asc">Title A-Z</option>
+                        <option value="title-desc">Title Z-A</option>
+                        <option value="author-asc">Author A-Z</option>
+                    </select>
+                </div>
+
+            </div>
         </section>
 
         <!-- This message can show loading, errors or no results -->
