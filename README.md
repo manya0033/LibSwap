@@ -137,8 +137,8 @@ Docker will:
 3. Copy the project package files.
 4. Install dependencies using `npm ci`.
 5. Copy the application source code.
-6. expose port `3000`.
-7. Start the application using `npm start`.
+6. Expose port `3000`.
+7. Configure the container to start the application using `npm start`.
 
 A successful build creates an image named:
 
@@ -217,6 +217,25 @@ A successful response returns the library catalogue data stored in MongoDB.
 
 This verifies that the Dockerised application can communicate successfully with the MongoDB database.
 
+### Catalogue UI - End-to-End Functionality
+
+Open:
+
+```text
+http://localhost:3000/catalogue.html
+```
+
+The catalogue page displays library books retrieved from the `/api/books` endpoint and stored in MongoDB Atlas.
+
+The interface supports:
+
+- searching by title, author or genre
+- filtering by genre
+- filtering by availability
+- sorting by title or author
+
+Successfully loading and interacting with this page demonstrates the complete application flow from the browser frontend through the Dockerised Express server to the MongoDB-backed `/api/books` endpoint.
+
 ---
 
 ## Authentication Endpoints
@@ -250,6 +269,7 @@ The `/api/auth/me` endpoint requires a valid JWT authentication token.
 | Method | Endpoint | Purpose |
 |---|---|---|
 | GET | `/` | Check that the server is running |
+| GET | `/catalogue.html` | Open the database-backed catalogue interface |
 | GET | `/api/student` | Return student name and student ID |
 | GET | `/api/books` | Retrieve library catalogue data from MongoDB |
 | POST | `/api/auth/register` | Register a user |
@@ -398,4 +418,5 @@ The `.env.example` file documents the required environment variables without exp
 ## Author
 
 Manya Mahajan  
+Student ID: 223222623  
 SIT725 - Applied Software Engineering
