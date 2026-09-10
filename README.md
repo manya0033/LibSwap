@@ -148,9 +148,56 @@ libswap-hd
 
 ---
 
-## 4. Run the Docker Container
+## 4. Run the Application
 
-Run:
+The application can be run using either Docker Compose or standard Docker commands.
+
+### Option 1: Run with Docker Compose
+
+Docker Compose is the recommended method because the required build and runtime settings are already defined in `docker-compose.yml`.
+
+From the root directory of the project, run:
+
+```bash
+docker compose up --build
+```
+
+Docker Compose will:
+
+- build the application using the `Dockerfile`
+- create the `libswap-hd-container` container
+- load environment variables from the `.env` file
+- map host port `3000` to container port `3000`
+- start the LibSwap application
+
+When startup is successful, the terminal should display:
+
+```text
+Connected to MongoDB
+Server is running on http://localhost:3000
+```
+
+To stop the application, press:
+
+```text
+Ctrl + C
+```
+
+Then remove the Compose container and network with:
+
+```bash
+docker compose down
+```
+
+### Option 2: Run with Docker Manually
+
+If the Docker image has not already been built, run:
+
+```bash
+docker build -t libswap-hd .
+```
+
+Then run the container:
 
 ```bash
 docker run --name libswap-hd-container --env-file .env -p 3000:3000 libswap-hd
@@ -168,6 +215,24 @@ When startup is successful, the terminal should display:
 ```text
 Connected to MongoDB
 Server is running on http://localhost:3000
+```
+
+To stop the application, press:
+
+```text
+Ctrl + C
+```
+
+Alternatively, from another terminal run:
+
+```bash
+docker stop libswap-hd-container
+```
+
+To remove the stopped container, run:
+
+```bash
+docker rm libswap-hd-container
 ```
 
 ---
